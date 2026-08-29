@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Papa from 'papaparse';
 import axios from 'axios';
-import { X, UploadCloud, Calendar, Clock, AlertCircle } from 'lucide-react';
+import { X, AlertCircle } from 'lucide-react';
 
 interface ComposeEmailModalProps {
   onClose: () => void;
@@ -69,120 +69,134 @@ export default function ComposeEmailModal({ onClose, senderEmail }: ComposeEmail
     }
   };
 
+  const inputClass =
+    'w-full px-3 py-2 border border-neutral-200 bg-white text-sm text-neutral-900 outline-none focus:border-neutral-950 placeholder:text-neutral-400';
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh]">
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
-          <h2 className="text-xl font-semibold text-slate-800">Compose New Sequence</h2>
-          <button onClick={onClose} className="p-2 text-slate-400 hover:text-slate-600 rounded-full hover:bg-slate-100 transition-colors">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+      <div className="bg-white border border-neutral-200 w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh]">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-neutral-200">
+          <h2 className="text-base font-semibold text-neutral-900">New campaign</h2>
+          <button type="button" onClick={onClose} className="text-neutral-400" aria-label="Close">
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        <div className="p-6 overflow-y-auto flex-1 space-y-5">
+        <div className="p-5 overflow-y-auto flex-1 space-y-5">
           {error && (
-            <div className="bg-red-50 text-red-600 p-4 rounded-xl flex items-center gap-3 text-sm font-medium">
-              <AlertCircle className="w-5 h-5" />
+            <div className="border border-neutral-200 bg-neutral-50 text-neutral-700 p-3 flex items-start gap-2 text-sm">
+              <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
               {error}
             </div>
           )}
 
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1.5">Subject Line</label>
+            <label htmlFor="subject" className="block text-sm font-medium text-neutral-700 mb-1.5">
+              Subject
+            </label>
             <input
+              id="subject"
               type="text"
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
-              className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all placeholder:text-slate-500"
-              placeholder="Exciting news from our team!"
+              className={inputClass}
+              placeholder="Subject line"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-neutral-900 mb-1.5">Email Body</label>
+            <label htmlFor="body" className="block text-sm font-medium text-neutral-700 mb-1.5">
+              Body
+            </label>
             <textarea
+              id="body"
               value={body}
               onChange={(e) => setBody(e.target.value)}
               rows={5}
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all resize-none placeholder:text-slate-500"
-              placeholder="Hi there,&#10;&#10;I wanted to reach out because..."
+              className={`${inputClass} resize-none`}
+              placeholder="Email content"
             />
           </div>
 
-          <div className="bg-slate-50 border border-slate-200 border-dashed rounded-xl p-6 flex flex-col items-center justify-center text-center relative hover:bg-slate-100 transition-colors cursor-pointer group">
-            <input
-              type="file"
-              accept=".csv"
-              onChange={handleFileUpload}
-              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-            />
-            <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-              <UploadCloud className="w-6 h-6" />
+          <div>
+            <label className="block text-sm font-medium text-neutral-700 mb-1.5">
+              Leads CSV
+            </label>
+            <div className="border border-dashed border-neutral-300 bg-neutral-50 p-6 text-center relative">
+              <input
+                type="file"
+                accept=".csv"
+                onChange={handleFileUpload}
+                aria-label="Upload leads CSV file"
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+              />
+              <p className="text-sm text-neutral-700">Upload a CSV with an email column</p>
+              {leads.length > 0 && (
+                <p className="text-xs text-neutral-500 mt-2 tabular-nums">
+                  {leads.length} leads loaded
+                </p>
+              )}
             </div>
-            <p className="text-sm font-medium text-slate-700">Click or drag CSV file to upload leads</p>
-            <p className="text-xs text-slate-500 mt-1">Must contain an 'email' column header</p>
-
-            {leads.length > 0 && (
-              <div className="mt-4 inline-flex items-center gap-2 bg-green-100 text-green-700 px-3 py-1.5 rounded-full text-sm font-medium">
-                <span className="w-2 h-2 rounded-full bg-green-500" />
-                {leads.length} leads detected
-              </div>
-            )}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1.5 flex items-center gap-2">
-                <Calendar className="w-4 h-4 text-slate-400" /> Start Time
+              <label htmlFor="startTime" className="block text-sm font-medium text-neutral-700 mb-1.5">
+                Start time
               </label>
               <input
+                id="startTime"
                 type="datetime-local"
                 value={startTime}
                 onChange={(e) => setStartTime(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all"
+                className={inputClass}
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1.5 flex items-center gap-2">
-                <Clock className="w-4 h-4 text-slate-400" /> Delay between emails (sec)
+              <label htmlFor="delay" className="block text-sm font-medium text-neutral-700 mb-1.5">
+                Delay between emails (seconds)
               </label>
               <input
+                id="delay"
                 type="number"
                 min="0"
                 value={delay}
                 onChange={(e) => setDelay(Number(e.target.value))}
-                className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all"
+                className={inputClass}
               />
             </div>
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-slate-700 mb-1.5">
-                Hourly Limit (Emails/hour)
+              <label htmlFor="hourlyLimit" className="block text-sm font-medium text-neutral-700 mb-1.5">
+                Hourly limit
               </label>
               <input
+                id="hourlyLimit"
                 type="number"
                 min="1"
                 value={hourlyLimit}
                 onChange={(e) => setHourlyLimit(Number(e.target.value))}
-                className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all"
+                className={inputClass}
               />
             </div>
           </div>
         </div>
 
-        <div className="border-t border-slate-100 px-6 py-4 bg-slate-50 flex justify-end gap-3">
+        <div className="border-t border-neutral-200 px-5 py-4 bg-neutral-50 flex justify-end gap-3">
           <button
+            type="button"
             onClick={onClose}
-            className="px-5 py-2.5 rounded-xl font-medium text-slate-600 hover:bg-slate-200 transition-colors"
+            className="px-4 py-2 text-sm font-medium text-neutral-600"
             disabled={loading}
           >
             Cancel
           </button>
           <button
+            type="button"
             onClick={handleSchedule}
             disabled={loading}
-            className="px-6 py-2.5 rounded-xl font-medium text-white bg-blue-600 hover:bg-blue-700 shadow-sm shadow-blue-200 transition-all disabled:opacity-50 flex items-center gap-2"
+            className="px-4 py-2 text-sm font-medium text-white bg-neutral-950 disabled:opacity-50"
           >
-            {loading ? 'Scheduling...' : 'Schedule Campaign'}
+            {loading ? 'Scheduling…' : 'Schedule campaign'}
           </button>
         </div>
       </div>
