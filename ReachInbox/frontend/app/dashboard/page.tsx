@@ -61,14 +61,14 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-neutral-50 flex flex-col">
-      <header className="bg-neutral-950 border-b border-neutral-800 sticky top-0 z-30">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
+      <div className="sticky top-4 z-30 px-4 sm:px-6 pt-4">
+        <header className="max-w-6xl mx-auto bg-neutral-950 rounded-xl px-4 sm:px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <span className="text-sm font-semibold text-white tracking-tight">ReachInbox</span>
           </div>
 
-          <div className="flex items-center gap-4">
-            <div className="hidden sm:flex items-center gap-3 mr-2 border-r border-neutral-800 pr-4">
+          <div className="flex items-center gap-3">
+            <div className="hidden sm:flex items-center gap-3 mr-1 border-r border-neutral-800 pr-4">
               <div className="text-right">
                 <p className="text-sm font-medium text-white">{session.user?.name}</p>
                 <p className="text-xs text-neutral-400">{session.user?.email}</p>
@@ -88,14 +88,14 @@ export default function DashboardPage() {
             <button
               type="button"
               onClick={() => signOut({ callbackUrl: '/login' })}
-              className="flex items-center gap-2 text-sm text-neutral-400"
+              className="flex items-center gap-2 text-sm text-neutral-400 px-3 py-1.5 rounded-lg cursor-pointer hover:text-white hover:bg-neutral-800 transition-colors"
             >
               <LogOut className="w-4 h-4" />
               <span className="hidden sm:inline">Sign out</span>
             </button>
           </div>
-        </div>
-      </header>
+        </header>
+      </div>
 
       <main className="flex-1 max-w-6xl mx-auto w-full px-4 sm:px-6 py-8 flex flex-col">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
@@ -107,7 +107,7 @@ export default function DashboardPage() {
           <button
             type="button"
             onClick={() => setIsComposeOpen(true)}
-            className="flex items-center gap-2 bg-neutral-950 text-white px-4 py-2 text-sm font-medium"
+            className="flex items-center gap-2 bg-neutral-950 text-white px-4 py-2 text-sm font-medium rounded-lg cursor-pointer"
           >
             <Plus className="w-4 h-4" />
             New campaign
@@ -118,7 +118,7 @@ export default function DashboardPage() {
           <Tabs.List className="flex border-b border-neutral-200 mb-6 gap-6">
             <Tabs.Trigger
               value="scheduled"
-              className={`pb-3 text-sm font-medium border-b-2 -mb-px ${
+              className={`pb-3 text-sm font-medium border-b-2 -mb-px cursor-pointer ${
                 activeTab === 'scheduled'
                   ? 'border-neutral-950 text-neutral-950'
                   : 'border-transparent text-neutral-500'
@@ -131,7 +131,7 @@ export default function DashboardPage() {
             </Tabs.Trigger>
             <Tabs.Trigger
               value="sent"
-              className={`pb-3 text-sm font-medium border-b-2 -mb-px ${
+              className={`pb-3 text-sm font-medium border-b-2 -mb-px cursor-pointer ${
                 activeTab === 'sent'
                   ? 'border-neutral-950 text-neutral-950'
                   : 'border-transparent text-neutral-500'
