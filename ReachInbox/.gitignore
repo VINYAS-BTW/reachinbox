@@ -14,7 +14,8 @@ build/
 
 /dist
 /build
-
+dist/
+backend/dist/
 
 .DS_Store
 *.pem
