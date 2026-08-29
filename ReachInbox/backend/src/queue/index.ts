@@ -9,6 +9,8 @@ export function createRedisConnection(host: string, port: number) {
   return new IORedis({
     host,
     port,
+    username: process.env.REDIS_USER,
+    password: process.env.REDIS_PASSWORD,
     maxRetriesPerRequest: null,
   });
 }
