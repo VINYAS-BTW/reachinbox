@@ -25,6 +25,10 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+transporter.verify()
+  .then(() => console.log("SMTP VERIFIED"))
+  .catch(err => console.error("SMTP VERIFY FAILED:", err));
+
 const MAX_EMAILS_PER_HOUR = parseInt(process.env.MAX_EMAILS_PER_HOUR || '200', 10);
 const CONCURRENCY = parseInt(process.env.CONCURRENCY || '5', 10);
 const DELAY_BETWEEN_EMAILS_MS = parseInt(process.env.DELAY_BETWEEN_EMAILS_MS || '2000', 10);
