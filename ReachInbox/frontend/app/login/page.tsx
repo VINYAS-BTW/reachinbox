@@ -34,7 +34,7 @@ export default function SignInScreen() {
             Upload leads, set timing and rate limits, and track delivery from one dashboard.
           </p>
         </div>
-        <p className="text-xs text-neutral-600">ReachInbox · Email job scheduler</p>
+        <p className="text-xs text-neutral-600">BY SAI VINYAS </p>
       </div>
 
       <div className="flex-1 flex items-center justify-center bg-white px-6 py-12">
