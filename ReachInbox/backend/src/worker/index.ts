@@ -46,6 +46,7 @@ async function checkRateLimit(senderEmail: string): Promise<number> {
 }
 
 const emailWorker = new Worker('email-queue', async (job: any) => {
+    console.log("JOB RECEIVED:", job.id, job.data);
     const { emailJobId } = job.data;
     
     const emailJob = await prisma.emailJob.findUnique({ where: { id: emailJobId } });
@@ -95,6 +96,14 @@ const emailWorker = new Worker('email-queue', async (job: any) => {
 }, { 
     connection: redisConnection,
     concurrency: CONCURRENCY
+});
+
+emailWorker.on("completed", (job) => {
+  console.log("COMPLETED:", job.id);
+});
+
+emailWorker.on("failed", (job, err) => {
+  console.log("FAILED:", job?.id, err);
 });
 
 console.log('Mail worker started...');

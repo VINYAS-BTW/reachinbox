@@ -20,6 +20,7 @@ export function getEmailQueue(connection: IORedis) {
 }
 
 export async function scheduleEmailJob(queue: Queue, jobData: EmailJobPayload, delay: number) {
+  console.log("Adding job:", jobData, "delay:", delay);
   await queue.add('send-email', jobData, { delay, removeOnComplete: true, removeOnFail: false });
 }
 
