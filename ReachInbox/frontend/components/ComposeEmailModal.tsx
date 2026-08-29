@@ -52,7 +52,7 @@ export default function ComposeEmailModal({ onClose, senderEmail }: ComposeEmail
         subject,
         body,
         leads,
-        startTime,
+        startTime: new Date(startTime).toISOString(),
         delay,
         hourlyLimit,
       });
