@@ -18,12 +18,10 @@ const redisConnection = new IORedis(redisConfig);
 const rateLimitRedis = new IORedis(redisConfig);
 
 const transporter = nodemailer.createTransport({
-  host: "smtp.ethereal.email",
-  port: 465,
-  secure: true,
+  service: 'gmail',
   auth: {
-    user: process.env.ETHEREAL_USER,
-    pass: process.env.ETHEREAL_PASS,
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_APP_PASSWORD,
   },
 });
 
