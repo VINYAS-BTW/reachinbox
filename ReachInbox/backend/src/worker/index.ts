@@ -18,12 +18,13 @@ const redisConnection = new IORedis(redisConfig);
 const rateLimitRedis = new IORedis(redisConfig);
 
 const transporter = nodemailer.createTransport({
-    host: 'smtp.ethereal.email',
-    port: 587,
-    auth: {
-        user: process.env.ETHEREAL_USER || '',
-        pass: process.env.ETHEREAL_PASS || ''
-    }
+  host: "smtp.ethereal.email",
+  port: 465,
+  secure: true,
+  auth: {
+    user: process.env.ETHEREAL_USER,
+    pass: process.env.ETHEREAL_PASS,
+  },
 });
 
 const MAX_EMAILS_PER_HOUR = parseInt(process.env.MAX_EMAILS_PER_HOUR || '200', 10);
