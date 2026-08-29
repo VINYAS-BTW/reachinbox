@@ -61,8 +61,8 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-neutral-50 flex flex-col">
-      <div className="sticky top-4 z-30 px-4 sm:px-6 pt-4">
-        <header className="max-w-6xl mx-auto bg-neutral-950 rounded-xl px-4 sm:px-6 h-14 flex items-center justify-between">
+      <header className="bg-neutral-950 sticky top-0 z-30">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <span className="text-sm font-semibold text-white tracking-tight">ReachInbox</span>
           </div>
@@ -94,8 +94,8 @@ export default function DashboardPage() {
               <span className="hidden sm:inline">Sign out</span>
             </button>
           </div>
-        </header>
-      </div>
+        </div>
+      </header>
 
       <main className="flex-1 max-w-6xl mx-auto w-full px-4 sm:px-6 py-8 flex flex-col">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">

@@ -1,5 +1,6 @@
 import React from 'react';
 import { format } from 'date-fns';
+import { CheckCircle2, Clock, XCircle } from 'lucide-react';
 
 interface EmailJob {
   id: string;
@@ -18,6 +19,33 @@ interface EmailsTableProps {
 
 function formatStatus(status: string) {
   return status.charAt(0) + status.slice(1).toLowerCase();
+}
+
+function StatusBadge({ status }: { status: string }) {
+  if (status === 'SENT') {
+    return (
+      <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-xs font-medium bg-green-50 text-green-700">
+        <CheckCircle2 className="w-3.5 h-3.5" />
+        {formatStatus(status)}
+      </span>
+    );
+  }
+
+  if (status === 'FAILED') {
+    return (
+      <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-xs font-medium bg-red-50 text-red-700">
+        <XCircle className="w-3.5 h-3.5" />
+        {formatStatus(status)}
+      </span>
+    );
+  }
+
+  return (
+    <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-xs font-medium bg-amber-50 text-amber-700">
+      <Clock className="w-3.5 h-3.5" />
+      {formatStatus(status)}
+    </span>
+  );
 }
 
 export default function EmailsTable({ emails, loading, type }: EmailsTableProps) {
@@ -68,9 +96,7 @@ export default function EmailsTable({ emails, loading, type }: EmailsTableProps)
                   )}
                 </td>
                 <td className="py-3 px-4 text-right">
-                  <span className="text-xs font-medium text-neutral-600 uppercase tracking-wide">
-                    {formatStatus(email.status)}
-                  </span>
+                  <StatusBadge status={email.status} />
                 </td>
               </tr>
             ))}
